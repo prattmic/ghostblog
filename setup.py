@@ -1,6 +1,9 @@
 #!/usr/bin/env python
 
-from distutils.core import setup
+try:
+    from setuptools import setup
+except ImportError:
+    from distutils.core import setup
 
 setup(name='ghostblog',
       version='0.1.0',
@@ -8,4 +11,5 @@ setup(name='ghostblog',
       author='Michael Pratt',
       author_email='michael@pratt.im',
       packages=['ghostblog'],
+      install_requires=['oauthlib', 'requests_oauthlib'],
 )

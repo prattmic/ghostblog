@@ -8,6 +8,10 @@ class Ghost(object):
 
     def __init__(self, base_url, username, password):
         self.base_url = base_url
+        # Base URL is a directory, and needs to have the
+        # trailing / for urljoin to work as expected.
+        if not self.base_url.endswith('/'):
+            self.base_url += '/'
 
         client = LegacyApplicationClient(self.client_id)
         self.ghost = OAuth2Session(self.client_id, client=client)

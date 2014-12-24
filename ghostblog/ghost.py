@@ -7,10 +7,34 @@ except ImportError: # Python 2
     from urlparse import urljoin
 
 class Ghost(object):
+    """
+    Ghost blog wrapper
+
+    Provides access to the Ghost blogging platform APIs.
+
+    This is based around Ghost's 'private' admin API,
+    documented on their wiki:
+    https://github.com/TryGhost/Ghost/wiki/%5BWIP%5D-API-Documentation
+
+    It is currently intended only for use on the admin console, so
+    the admin client id is the only one accepted, and authentication
+    is required, even just to get public data.
+    """
+
     # Only the ghost-admin client id is accepted
     client_id = 'ghost-admin'
 
     def __init__(self, base_url, username, password):
+        """
+        Construct a Ghost object
+
+        Arguments:
+            base_url: This is the public URL of the blog, where you would
+                find its homepage, not the admin console.  Note that OAuth2
+                requires SSL, so this must be an HTTPS URL.
+            username: Ghost username (email)
+            password: Ghost password
+        """
         self.base_url = base_url
         # Base URL is a directory, and needs to have the
         # trailing / for urljoin to work as expected.
@@ -39,6 +63,9 @@ class Ghost(object):
         List of posts
 
         Paginated by default, but a specific post ID may be requested.
+
+        See the Ghost wiki for details on parameters:
+        https://github.com/TryGhost/Ghost/wiki/%5BWIP%5D-API-Documentation#endpoints
         """
         u = self.url('ghost/api/v0.1/posts/')
 

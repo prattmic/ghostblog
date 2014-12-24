@@ -1,6 +1,10 @@
 from oauthlib.oauth2 import LegacyApplicationClient
 from requests_oauthlib import OAuth2Session
-from urlparse import urljoin
+
+try: # Python 3+
+    from urllib.parse import urljoin
+except ImportError: # Python 2
+    from urlparse import urljoin
 
 class Ghost(object):
     # Only the ghost-admin client id is accepted

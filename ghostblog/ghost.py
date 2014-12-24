@@ -1,10 +1,14 @@
 from oauthlib.oauth2 import LegacyApplicationClient
+from oauthlib.oauth2.rfc6749.errors import MissingTokenError
 from requests_oauthlib import OAuth2Session
 
 try: # Python 3+
     from urllib.parse import urljoin
 except ImportError: # Python 2
     from urlparse import urljoin
+
+class GhostError(Exception):
+    pass
 
 class Ghost(object):
     """
@@ -44,11 +48,14 @@ class Ghost(object):
         client = LegacyApplicationClient(self.client_id)
         self.ghost = OAuth2Session(self.client_id, client=client)
 
-        # Fetch the access token
-        self.ghost.fetch_token(
-            self.url('ghost/api/v0.1/authentication/token'),
-            username=username, password=password,
-            body='client_id=%s' % self.client_id) # client_id must be included
+        try:
+            # Fetch the access token
+            self.ghost.fetch_token(
+                self.url('ghost/api/v0.1/authentication/token'),
+                username=username, password=password,
+                body='client_id=%s' % self.client_id) # client_id must be included
+        except MissingTokenError:
+            raise GhostError('Unable to login')
 
     def url(self, relative):
         """Build full URL from relative path"""

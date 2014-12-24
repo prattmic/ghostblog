@@ -14,10 +14,14 @@ class Ghost(object):
 
         # Fetch the access token
         self.ghost.fetch_token(
-            urljoin(self.base_url, 'ghost/api/v0.1/authentication/token'),
+            self.url('ghost/api/v0.1/authentication/token'),
             username=username, password=password,
             body='client_id=%s' % self.client_id) # client_id must be included
 
+    def url(self, relative):
+        """Build full URL from relative path"""
+        return urljoin(self.base_url, relative)
+
     def me(self):
         """Get info about me"""
-        return self.ghost.get(urljoin(self.base_url, 'ghost/api/v0.1/users/me/'))
+        return self.ghost.get(self.url('ghost/api/v0.1/users/me/')).text

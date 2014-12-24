@@ -12,4 +12,5 @@ setup(name='ghostblog',
       author_email='michael@pratt.im',
       packages=['ghostblog'],
       install_requires=['oauthlib', 'requests_oauthlib'],
+      license='MIT',
 )

@@ -32,7 +32,7 @@ class Ghost(object):
 
     def me(self):
         """Get info about me"""
-        return self.ghost.get(self.url('ghost/api/v0.1/users/me/')).text
+        return self.ghost.get(self.url('ghost/api/v0.1/users/me/')).json()
 
     def posts(self, post_id=None, limit=15, page=1, status='published'):
         """
@@ -51,4 +51,4 @@ class Ghost(object):
             'status': status,
         }
 
-        return self.ghost.get(u, params=params).text
+        return self.ghost.get(u, params=params).json()

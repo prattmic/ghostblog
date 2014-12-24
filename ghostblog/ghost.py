@@ -25,3 +25,22 @@ class Ghost(object):
     def me(self):
         """Get info about me"""
         return self.ghost.get(self.url('ghost/api/v0.1/users/me/')).text
+
+    def posts(self, post_id=None, limit=15, page=1, status='published'):
+        """
+        List of posts
+
+        Paginated by default, but a specific post ID may be requested.
+        """
+        u = self.url('ghost/api/v0.1/posts/')
+
+        if post_id is not None:
+            u = urljoin(u, str(post_id))
+
+        params = {
+            'limit': limit,
+            'page': page,
+            'status': status,
+        }
+
+        return self.ghost.get(u, params=params).text
